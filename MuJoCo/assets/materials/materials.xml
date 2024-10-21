@@ -1,0 +1,71 @@
+<mujoco model="right_shadow_hand scene">
+
+  <statistic extent="0.3" center="0.3 0 0"/>
+
+  <visual>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <quality shadowsize="8192"/>
+    <global azimuth="220" elevation="-30"/>
+    <headlight ambient="0 0 0" diffuse="0.1 0.1 0.1" specular="1 1 1"/> <!-- Mi raccomando copiare questa linea di codice IMPORT -->
+    
+  </visual>
+
+  <asset>
+    <!-- <texture name = "sphere"  file ="sfera.png" type = "2d"/>
+    <material name = "sphere" texture = "sphere" specular="1" shininess="1" reflectance="0.5"/> -->
+
+    <texture name = "cube" file="Silver.png" type = "cube"/>
+    <material name ="cube" texture="cube" specular="1" shininess="1" reflectance="0.5" />
+
+    <texture name = "plastic" file="plastic.png" type = "cube"/>
+    <material name ="plastic" texture="plastic" specular="0.8" shininess="0.8" reflectance="0.3" />
+
+    <texture name = "rock" file="rock.png" type = "cube"/>
+    <material name ="rock" texture="rock" specular="0.5" shininess="0.5" reflectance="0.3" />
+
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
+      markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+    <mesh file="sphere.obj" scale=".06 .06 .06"/>
+  </asset>
+
+  <worldbody>
+    <light pos="-.2 -.4 .3" dir="1 2 -1.5" diffuse=".6 .6 .6"/>
+    <light pos=".4 -.4 .3" dir="-2 2 -1.5" diffuse=".6 .6 .6"/>
+    <light pos="0 0 1"/>
+    <light pos="0.3 0 1.5" dir="0 0 -1" directional="true"/>
+    <geom name="floor" pos="0 0 -0.1" size="0 0 0.05" type="plane" material="groundplane"/>
+    <body name="cube" pos="0 0 0">
+      <freejoint/>
+      <geom type="box" size=".03 .03 .03" density="4000" material="cube"/>
+      <!-- <geom name="sphere_collision" class="collision_primitive" type="box" size=".03 .03 .03"
+        density="4000" material = "cube"
+        pos="0 0 0" euler="0 0 0" /> -->
+     <!-- <geom type="mesh" mesh="sphere"  euler="90 0 0" group="1"  material="sphere"/> -->
+    </body>
+
+    <body name="cube_plastic" pos="0.2 0 0">
+      <freejoint/>
+      <geom type="cylinder" size=".03 0.07" density="4000" material="plastic"/>
+      <!-- <geom name="sphere_collision" class="collision_primitive" type="box" size=".03 .03 .03"
+        density="4000" material = "cube"
+        pos="0 0 0" euler="0 0 0" /> -->
+     <!-- <geom type="mesh" mesh="sphere"  euler="90 0 0" group="1"  material="sphere"/> -->
+    </body>
+
+    <body name="cube_rock" pos="0.35 0 0">
+      <freejoint/>
+      <geom type="box" size=".03 .03 .03" density="9000" material="rock"/>
+      <!-- <geom name="sphere_collision" class="collision_primitive" type="box" size=".03 .03 .03"
+        density="4000" material = "cube"
+        pos="0 0 0" euler="0 0 0" /> -->
+     <!-- <geom type="mesh" mesh="sphere"  euler="90 0 0" group="1"  material="sphere"/> -->
+    </body>
+
+    
+
+
+
+  </worldbody>
+</mujoco>

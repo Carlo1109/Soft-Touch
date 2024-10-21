@@ -1,0 +1,859 @@
+<mujoco model="hand">
+  <size memory="1G" />
+  <compiler angle="radian" />
+
+  <!-- <option timestep="0.005" noslip_iterations="4"/> -->
+
+  <option solver="CG" tolerance="1e-6" timestep=".0014" integrator="implicitfast" jacobian="sparse"
+    noslip_iterations="4">
+    <!-- <flag gravity="disable" /> -->
+  </option>
+  <option cone="elliptic" impratio="100" />
+  <!-- <size njmax="900" nconmax="300" nkey="1"/> -->
+  <!-- <option>
+    <flag multiccd="enable" />
+  </option> -->
+  <!-- <option>
+    <flag passive="disable" />
+  </option> -->
+  <visual>
+    <!-- <global offwidth="1920" offheight="1080"/> -->
+    <map znear="0.001" />
+    <scale jointlength="8" jointwidth="0.5" framelength="2" framewidth="0.3" />
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <quality shadowsize="8192"/>
+    <global azimuth="220" elevation="-30"/>
+    <headlight ambient="0 0 0" diffuse="0.1 0.1 0.1" specular="1 1 1"/> <!-- Mi raccomando copiare questa linea di codice IMPORT -->
+      
+    </visual>
+  <statistic extent="0.3" center="0.3 0 0" meansize="0.01"/>
+  <!-- <statistic  extent="1" /> -->
+
+  <default>
+    <joint limited="true" range="0 1.8" solreflimit="0.01 1" solimplimit="0.9 0.99 0.01"
+      stiffness="0.1" armature="0.0001" damping="0.01"/>
+    <geom solref="0.01 1" solimp="0.95 0.99 0.001" />
+    <tendon rgba="0.5 0 0 1" />
+    <general actlimited="true" actrange="0 1.7"/>
+    <!-- <general ctrllimited="true" ctrlrange="-5 5" dyntype="filter" dynprm="0.05"
+    gainprm="0.02"/> -->
+    <default class="collision_primitive">
+      <geom type="capsule" contype="1" conaffinity="1" condim="1" group="3"
+        density="300" material="skin"/>
+    </default>
+    <default class="collision_circles">
+      <geom type="capsule" contype="1" conaffinity="1" condim="3" group="3" rgba="0.0352941176471 0.364705882353 0.494117647059 1"
+        density="300" />
+    </default>
+    <default class="bone">
+      <geom type="mesh" contype="0" conaffinity="0" group="5" material="skin" density="1100" />
+      <!-- rgba="0.5 0.5 0.5 1" -->
+      <default class="light_bone">
+        <geom density="300" />
+      </default>
+    </default>
+    <default class="finger">
+      <joint group="1" pos="0.012 0 0.01" armature="0.01" damping="3" />
+      <default class="f">
+        <joint range="-17.5 61.25" pos="0 0 0" />
+        <general gainprm="20" />
+      </default>
+    </default>
+    <default class="phantom">
+      <mesh scale="3 3 3" />
+      <default class="visual">
+        <geom group="2" type="mesh" contype="0" conaffinity="0" />
+      </default>
+      <default class="collision">
+        <geom group="2" type="mesh" />
+      </default>
+    </default>
+  </default>
+
+  <asset>
+    <!-- Textures -->
+    <texture name="//unnamed_texture_0" type="skybox" builtin="gradient" rgb1="0.6 0.8 0.9"
+      rgb2="0 0 0" width="64" height="64" />
+    <texture name="grid" type="2d" builtin="checker" rgb1="0.1 0.2 0.3" rgb2="0.2 0.3 0.4"
+      mark="edge" markrgb="0.2 0.3 0.4" width="300" height="300" />
+    <!-- Materials -->
+    <material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance="0.2" />
+    <material name="skin" rgba="0.4863 0.2745 0.7137 1"/>
+    
+    <!-- Textures for cubes -->
+    <texture name = "silver" file="materials/Silver.png" type = "cube"/>
+    <material name ="silver" texture="silver" specular="1" shininess="1" reflectance="0.5" />
+
+    <texture name = "plastic" file="materials/plastic.png" type = "cube"/>
+    <material name ="plastic" texture="plastic" specular="0.8" shininess="0.8" reflectance="0.3" />
+
+    <texture name = "rock" file="materials/rock.png" type = "cube"/>
+    <material name ="rock" texture="rock" specular="0.5" shininess="0.5" reflectance="0.3" />
+
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0" width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3"
+      markrgb="0.8 0.8 0.8" width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0.2"/>
+    <mesh file="materials/sphere.obj" scale=".06 .06 .06"/>
+
+
+
+    <!-- Right Hand meshes -->
+    <mesh name="Right_Annular_1.stl" file="Right_Index_bones/Annular_1.stl" />
+    <mesh name="Right_Annular_2.stl" file="Right_Index_bones/Annular_2.stl" />
+    <mesh name="Right_Annular_3.stl" file="Right_Index_bones/Annular_3.stl" />
+    <mesh name="Right_Annular_4.stl" file="Right_Index_bones/Annular_4.stl" />
+    <mesh name="Right_Annular_J1.stl" file="Right_Index_bones/Annular_J1.stl" />
+    <mesh name="Right_Annular_J2.stl" file="Right_Index_bones/Annular_J2.stl" />
+    <mesh name="Right_Annular_J3.stl" file="Right_Index_bones/Annular_J3.stl" />
+    <mesh name="Right_Index_1.stl" file="Right_Index_bones/Index_1.stl" />
+    <mesh name="Right_Index_2.stl" file="Right_Index_bones/Index_2.stl" />
+    <mesh name="Right_Index_3.stl" file="Right_Index_bones/Index_3.stl" />
+    <mesh name="Right_Index_4.stl" file="Right_Index_bones/Index_4.stl" />
+    <mesh name="Right_Index_J1.stl" file="Right_Index_bones/Index_J1.stl" />
+    <mesh name="Right_Index_J2.stl" file="Right_Index_bones/Index_J2.stl" />
+    <mesh name="Right_Index_J3.stl" file="Right_Index_bones/Index_J3.stl" />
+    <mesh name="Right_J1.stl" file="Right_Index_bones/J1.stl" />
+    <mesh name="Right_J2.stl" file="Right_Index_bones/J2.stl" />
+    <mesh name="Right_Middle_1.stl" file="Right_Index_bones/Middle_1.stl" />
+    <mesh name="Right_Middle_2.stl" file="Right_Index_bones/Middle_2.stl" />
+    <mesh name="Right_Middle_3.stl" file="Right_Index_bones/Middle_3.stl" />
+    <mesh name="Right_Middle_4.stl" file="Right_Index_bones/Middle_4.stl" />
+    <mesh name="Right_Middle_J1.stl" file="Right_Index_bones/Middle_J1.stl" />
+    <mesh name="Right_Middle_J2.stl" file="Right_Index_bones/Middle_J2.stl" />
+    <mesh name="Right_Middle_J3.stl" file="Right_Index_bones/Middle_J3.stl" />
+    <mesh name="Right_Palm.stl" file="Right_Index_bones/Palm.stl" />
+    <mesh name="Right_palm_mat.obj" file="Right_Index_bones/palm_mat.obj" />
+    <mesh name="Right_Pinky_1.stl" file="Right_Index_bones/Pinky_1.stl" />
+    <mesh name="Right_Pinky_2.stl" file="Right_Index_bones/Pinky_2.stl" />
+    <mesh name="Right_Pinky_3.stl" file="Right_Index_bones/Pinky_3.stl" />
+    <mesh name="Right_Pinky_4.stl" file="Right_Index_bones/Pinky_4.stl" />
+    <mesh name="Right_Pinky_J1.stl" file="Right_Index_bones/Pinky_J1.stl" />
+    <mesh name="Right_Pinky_J2.stl" file="Right_Index_bones/Pinky_J2.stl" />
+    <mesh name="Right_Pinky_J3.stl" file="Right_Index_bones/Pinky_J3.stl" />
+    <mesh name="Right_Thumb_1.stl" file="Right_Index_bones/Thumb_1.stl" />
+    <mesh name="Right_Thumb_2.stl" file="Right_Index_bones/Thumb_2.stl" />
+    <mesh name="Right_Thumb_3.stl" file="Right_Index_bones/Thumb_3.stl" />
+    <mesh name="Right_Thumb_J1.stl" file="Right_Index_bones/Thumb_J1.stl" />
+    <mesh name="Right_Thumb_J2.stl" file="Right_Index_bones/Thumb_J2.stl" />
+    <mesh name="Right_Thumb_J3.stl" file="Right_Index_bones/Thumb_J3.stl" />
+
+    <!-- Left Hand meshes -->
+    <mesh name="Left_Annular_1.stl" file="Left_Index_Bones/Annular_1.stl" />
+    <mesh name="Left_Annular_2.stl" file="Left_Index_Bones/Annular_2.stl" />
+    <mesh name="Left_Annular_3.stl" file="Left_Index_Bones/Annular_3.stl" />
+    <mesh name="Left_Annular_4.stl" file="Left_Index_Bones/Annular_4.stl" />
+    <mesh name="Left_Annular_J1.stl" file="Left_Index_Bones/Annular_J1.stl" />
+    <mesh name="Left_Annular_J2.stl" file="Left_Index_Bones/Annular_J2.stl" />
+    <mesh name="Left_Annular_J3.stl" file="Left_Index_Bones/Annular_J3.stl" />
+    <mesh name="Left_Index_1.stl" file="Left_Index_Bones/Index_1.stl" />
+    <mesh name="Left_Index_2.stl" file="Left_Index_Bones/Index_2.stl" />
+    <mesh name="Left_Index_3.stl" file="Left_Index_Bones/Index_3.stl" />
+    <mesh name="Left_Index_4.stl" file="Left_Index_Bones/Index_4.stl" />
+    <mesh name="Left_Index_J1.stl" file="Left_Index_Bones/Index_J1.stl" />
+    <mesh name="Left_Index_J2.stl" file="Left_Index_Bones/Index_J2.stl" />
+    <mesh name="Left_Index_J3.stl" file="Left_Index_Bones/Index_J3.stl" />
+    <mesh name="Left_Middle_1.stl" file="Left_Index_Bones/Middle_1.stl" />
+    <mesh name="Left_Middle_2.stl" file="Left_Index_Bones/Middle_2.stl" />
+    <mesh name="Left_Middle_3.stl" file="Left_Index_Bones/Middle_3.stl" />
+    <mesh name="Left_Middle_4.stl" file="Left_Index_Bones/Middle_4.stl" />
+    <mesh name="Left_Middle_J1.stl" file="Left_Index_Bones/Middle_J1.stl" />
+    <mesh name="Left_Middle_J2.stl" file="Left_Index_Bones/Middle_J2.stl" />
+    <mesh name="Left_Middle_J3.stl" file="Left_Index_Bones/Middle_J3.stl" />
+    <mesh name="Left_Palm.stl" file="Left_Index_Bones/Palm.stl" />
+    <mesh name="Left_Pinky_1.stl" file="Left_Index_Bones/Pinky_1.stl" />
+    <mesh name="Left_Pinky_2.stl" file="Left_Index_Bones/Pinky_2.stl" />
+    <mesh name="Left_Pinky_3.stl" file="Left_Index_Bones/Pinky_3.stl" />
+    <mesh name="Left_Pinky_4.stl" file="Left_Index_Bones/Pinky_4.stl" />
+    <mesh name="Left_Pinky_J1.stl" file="Left_Index_Bones/Pinky_J1.stl" />
+    <mesh name="Left_Pinky_J2.stl" file="Left_Index_Bones/Pinky_J2.stl" />
+    <mesh name="Left_Pinky_J3.stl" file="Left_Index_Bones/Pinky_J3.stl" />
+    <mesh name="Left_Thumb_1.stl" file="Left_Index_Bones/Thumb_1.stl" />
+    <mesh name="Left_Thumb_2.stl" file="Left_Index_Bones/Thumb_2.stl" />
+    <mesh name="Left_Thumb_3.stl" file="Left_Index_Bones/Thumb_3.stl" />
+    <mesh name="Left_Thumb_J1.stl" file="Left_Index_Bones/Thumb_J1.stl" />
+    <mesh name="Left_Thumb_J2.stl" file="Left_Index_Bones/Thumb_J2.stl" />
+    <mesh name="Left_Thumb_J3.stl" file="Left_Index_Bones/Thumb_J3.stl" />
+
+    <!-- Abdomen phantom -->
+    <material name="aorta"
+      rgba="1.000000 0.750000 0.750000 1.000000" />
+    <material name="cava"
+      rgba="0.500000 0.500000 1.000000 1.000000" />
+    <material name="fat" specular="0.25" shininess="0.1"
+      rgba="1.000000 1.000000 0.650000 1.000000" />
+    <material name="inner_spine"
+      rgba="1.000000 1.000000 1.000000 1.000000" />
+    <material name="liver"
+      rgba="0.500000 0.250000 0.250000 1.000000" />
+    <material name="muscle"
+      rgba="1.000000 0.500000 0.500000 1.000000" />
+    <material name="outer_spine"
+      rgba="1.000000 1.000000 0.850000 1.000000" />
+    <material name="portal_vein"
+      rgba="0.750000 0.250000 0.250000 1.000000" />
+    <material name="ribs"
+      rgba="1.000000 1.000000 0.850000 1.000000" />
+    <material name="right_kidney"
+      rgba="0.800000 0.400000 0.400000 1.000000" />
+    <mesh class="phantom" file="phantom-assets/right_kidney.obj" />
+    <mesh class="phantom" file="phantom-assets/ribs.obj" />
+    <mesh class="phantom" file="phantom-assets/portal_vein.obj" />
+    <mesh class="phantom" file="phantom-assets/outer_spine.obj" />
+    <mesh class="phantom" file="phantom-assets/muscle.obj" />
+    <mesh class="phantom" file="phantom-assets/liver.obj" />
+    <mesh class="phantom" file="phantom-assets/inner_spine.obj" />
+    <mesh class="phantom" file="phantom-assets/fat.obj" />
+    <mesh class="phantom" file="phantom-assets/cava.obj" />
+    <mesh class="phantom" file="phantom-assets/aorta.obj" />
+  </asset>
+
+  <equality>
+    <weld body1="right_hand_mocap" body2="Right_Free" />
+    <weld body1="left_hand_mocap" body2="Left_Free" />
+  </equality>
+
+  <contact>
+    <!-- <exclude body1="right_hand_palm" body2="right_hand_palm_5" />
+    <exclude body1="Right_Index_4.stl" body2="Right_Thumb_2.stl" /> -->
+
+    <exclude body1="Left_Index_4.stl" body2="Left_Thumb_3.stl" />
+    <exclude body1="Left_Index_4.stl" body2="Left_Thumb_2.stl" />
+  </contact>
+
+  <!-- <contact>
+    <pair geom1="Left_Index_4.stl_collision" geom2="sphere_collision"/>
+    <pair geom1="Left_Middle_4.stl_collision" geom2="sphere_collision"/>
+    <pair geom1="Left_Annular_4.stl_collision" geom2="sphere_collision"/>
+    <pair geom1="Left_Pinky_4.stl_collision" geom2="sphere_collision"/>
+    <pair geom1="Left_Thumb_3.stl_collision" geom2="sphere_collision"/>
+    
+</contact> -->
+
+  <extension>
+    <plugin plugin="mujoco.elasticity.solid" />
+  </extension>
+
+  <worldbody>
+    <light name="//unnamed_light_0" directional="true" castshadow="false" pos="0 0 5"
+      diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1" />
+    <light name="//unnamed_light_1" pos="0 0 4" diffuse="0.6 0.6 0.6" specular="0.2 0.2 0.2" />
+    <geom name="floor" type="plane" conaffinity="1" size="10 10 0.1" material="grid" />
+    <!-- _______________________________ Right Hand ________________________________________________ -->
+
+    <!-- Right Palm and Mocap  -->
+    <body name="right_hand_mocap" mocap="true" pos="-0.2 0 1"></body>
+    <body name="Right_Free" pos="-0.2 0 1" euler="0 -1.57 -1.57">
+      <freejoint name="Right_Freejoint" group="1"/>
+      <geom type="sphere" size=".02" contype="0" conaffinity="0" rgba="1 0.5 0.5 0" />
+      <body name="Right_Palm">
+        <body name="Right_Palm_Right">
+          <geom name="Right_Palm2" type="mesh" contype="0" conaffinity="0" material="skin"
+            mesh="Right_Palm.stl" />
+          <geom name="Right_Palm_collision" class="collision_primitive" type="box" rgba="0.0352941176471 0.364705882353 0.494117647059 0"
+            size="0.026 0.026 0.0078" pos="0 -0.03053 -0.004559" euler="0 0 0" group="5" />
+
+          <!-- Right Index  -->
+          <body name="Right_hand_palm" pos="0.00405 -0.01527 -0.002279">
+            <body name="Right_Index_1.stl" pos="0.01821 -0.02181 -0.001155">
+              <geom name="Right_Index_1.stl" class="bone" group="1" pos="-0.02226 0.03708 0.003434"
+                mesh="Right_Index_1.stl"
+                contype="0" conaffinity="0" rgba="1 0.5 0.5 0" />
+              <body name="Right_Index_J1.stl" pos="0.00227 -0.01826 -0.003126">
+                <geom name="Right_Index_J1.stl" class="bone" group="1"
+                  pos="-0.02453 0.05534 0.00656" mesh="Right_Index_J1.stl" />
+                <body name="Right_Index_2.stl" pos="0.001246 -0.01296 -0.002512">
+                  <geom name="Right_Index_2.stl" class="bone" group="1"
+                    pos="-0.02578 0.06829 0.009072" mesh="Right_Index_2.stl" />
+                  <geom name="Right_Index_2.stl_collision" class="collision_primitive"
+                    size="0.005752 0.008655" euler="-1.4 -0.12 1.6" />
+                  <body name="Right_Index_J2.stl" pos="0.001513 -0.01324 -0.001792">
+                    <geom name="Right_Index_J2.stl" class="bone" group="1"
+                      pos="-0.02729 0.08154 0.01086" mesh="Right_Index_J2.stl" />
+                    <body name="Right_Index_3.stl" pos="0.0009469 -0.008692 -0.001412">
+                      <geom name="Right_Index_3.stl" class="bone" group="1"
+                        pos="-0.02824 0.09023 0.01228" mesh="Right_Index_3.stl" />
+                      <geom name="Right_Index_3.stl_collision" class="collision_primitive"
+                        size="0.005 0.006655" euler="-1.4 -0.12 1.6" />
+                      <body name="Right_Index_J3.stl" pos="0.001143 -0.009517 -0.001137">
+                        <geom name="Right_Index_J3.stl" class="bone" group="1"
+                          pos="-0.02938 0.09975 0.01341" mesh="Right_Index_J3.stl" />
+                        <body name="Right_Index_4.stl" pos="0.0002737 -0.003749 -0.0006906">
+                          <site name="Right_forSensor" type="sphere" group="3" size="0.005 0.005"
+                            pos="0.0002737 -0.003749 -0.0006906" />
+                          <geom name="Right_Index_4.stl" class="bone" group="1"
+                            pos="-0.02966 0.1035 0.0141" mesh="Right_Index_4.stl" />
+                          <geom name="Right_Index_4.stl_collision" class="collision_primitive"
+                            size="0.004 0.004014" euler="-1.4 -0.12 1.6" />
+                        </body>
+                        <joint name="Right_Index_J3.stl" class="f" axis="0.8 0.1 0" />
+                      </body>
+                    </body>
+                    <joint name="Right_Index_J2.stl" class="f" axis="0.8 0.1 0" />
+                  </body>
+                </body>
+                <joint name="Right_Index_J1.stl" class="f" axis="0.8 0.1 0" />
+              </body>
+            </body>
+          </body>
+
+          <!-- Right Middle  -->
+          <body name="Right_hand_palm_2" pos="0.00405 -0.01527 -0.002279">
+            <body name="Right_Middle_1.stl" pos="0.0008401 -0.02757 -0.00339">
+              <geom name="Right_Middle_1.stl" class="bone" group="1" pos="-0.00489 0.04284 0.00567"
+                mesh="Right_Middle_1.stl"
+                contype="0" conaffinity="0" rgba="1 0.5 0.5 0" />
+              <body name="Right_Middle_J1.stl" pos="-0.001068 -0.02192 -0.003756">
+                <geom name="Right_Middle_J1.stl" class="bone" group="1"
+                  pos="-0.003822 0.06475 0.009426" mesh="Right_Middle_J1.stl" />
+                <body name="Right_Middle_2.stl" pos="0.000714 -0.01548 -0.002969">
+                  <geom name="Right_Middle_2.stl" class="bone" group="1"
+                    pos="-0.004536 0.08024 0.01239" mesh="Right_Middle_2.stl" />
+                  <geom name="Right_Middle_2.stl_collision" class="collision_primitive"
+                    size="0.006232 0.01032" euler="-1.4 0 1.6" />
+                  <body name="Right_Middle_J2.stl" pos="-7.813e-05 -0.01587 -0.002141">
+                    <geom name="Right_Middle_J2.stl" class="bone" group="1"
+                      pos="-0.004457 0.09611 0.01454" mesh="Right_Middle_J2.stl" />
+                    <body name="Right_Middle_3.stl" pos="-0.0001241 -0.01041 -0.001683">
+                      <geom name="Right_Middle_3.stl" class="bone" group="1"
+                        pos="-0.004333 0.1065 0.01622" mesh="Right_Middle_3.stl" />
+                      <geom name="Right_Middle_3.stl_collision" class="collision_primitive"
+                        size="0.0055 0.00792" euler="-1.4 0 1.6" />
+                      <body name="Right_Middle_J3.stl" pos="2.234e-05 -0.01141 -0.001365">
+                        <geom name="Right_Middle_J3.stl" class="bone" group="1"
+                          pos="-0.004356 0.1179 0.01758" mesh="Right_Middle_J3.stl" />
+                        <body name="Right_Middle_4.stl" pos="-0.000219 -0.004472 -0.0008121">
+                          <site name="Right_forSensorMiddle_4.stl" type="sphere" group="3"
+                            size="0.005 0.005" pos="-0.000219 -0.004472 -0.0008121" />
+                          <geom name="Right_Middle_4.stl" class="bone" group="1"
+                            pos="-0.004137 0.1224 0.0184" mesh="Right_Middle_4.stl" />
+                          <geom name="Right_Middle_4.stl_collision" class="collision_primitive"
+                            size="0.0045 0.004789" euler="-1.4 0 1.6" />
+                        </body>
+                        <joint name="Right_Middle_J3.stl" class="f" axis="1 0 0" />
+                      </body>
+                    </body>
+                    <joint name="Right_Middle_J2.stl" class="f" axis="1 0 0" />
+                  </body>
+                </body>
+                <joint name="Right_Middle_J1.stl" class="f" axis="1 0 0" />
+              </body>
+            </body>
+          </body>
+
+          <!-- Right Annular  -->
+          <body name="Right_hand_palm_3" pos="0.00405 -0.01527 -0.002279">
+            <body name="Right_Annular_1.stl" pos="-0.01838 -0.02648 -0.002412">
+              <geom name="Right_Annular_1.stl" class="bone" group="1" pos="0.01433 0.04174 0.004692"
+                mesh="Right_Annular_1.stl"
+                contype="0" conaffinity="0" rgba="1 0.5 0.5 0" />
+              <body name="Right_Annular_J1.stl" pos="-0.001102 -0.02004 -0.00288">
+                <geom name="Right_Annular_J1.stl" class="bone" group="1"
+                  pos="0.01544 0.06178 0.007571" mesh="Right_Annular_J1.stl" />
+                <body name="Right_Annular_2.stl" pos="-0.001203 -0.01417 -0.002324">
+                  <geom name="Right_Annular_2.stl" class="bone" group="1"
+                    pos="0.01664 0.07595 0.009895" mesh="Right_Annular_2.stl" />
+                  <geom name="Right_Annular_2.stl_collision" class="collision_primitive"
+                    size="0.005781 0.009836" euler="-1.4 0.05 1.6" />
+                  <body name="Right_Annular_J2.stl" pos="-0.00107 -0.01493 -0.001752">
+                    <geom name="Right_Annular_J2.stl" class="bone" group="1"
+                      pos="0.01771 0.09088 0.01165" mesh="Right_Annular_J2.stl" />
+                    <body name="Right_Annular_3.stl" pos="-0.000481 -0.009086 -0.001084">
+                      <geom name="Right_Annular_3.stl" class="bone" group="1"
+                        pos="0.01819 0.09997 0.01273" mesh="Right_Annular_3.stl" />
+                      <geom name="Right_Annular_3.stl_collision" class="collision_primitive"
+                        size="0.005 0.007487" euler="-1.4 0.05 1.6" />
+                      <body name="Right_Annular_J3.stl" pos="-0.0005647 -0.01043 -0.000965">
+                        <geom name="Right_Annular_J3.stl" class="bone" group="1"
+                          pos="0.01875 0.1104 0.0137" mesh="Right_Annular_J3.stl" />
+                        <body name="Right_Annular_4.stl" pos="-0.0004367 -0.004082 -0.0006246">
+                          <site name="Right_forSensorAnnular_4.stl" type="sphere" group="3"
+                            size="0.005 0.005" pos="-0.0004367 -0.004082 -0.0006246" />
+                          <geom name="Right_Annular_4.stl" class="bone" group="1"
+                            pos="0.01919 0.1145 0.01432" mesh="Right_Annular_4.stl" />
+                          <geom name="Right_Annular_4.stl_collision" class="collision_primitive"
+                            size="0.004 0.004495" euler="-1.4 0.05 1.6" />
+                        </body>
+                        <joint name="Right_Annular_J3.stl" class="f" axis="0.6 -0.05 0" />
+                      </body>
+                    </body>
+                    <joint name="Right_Annular_J2.stl" class="f" axis="0.6 -0.05 0" />
+                  </body>
+                </body>
+                <joint name="Right_Annular_J1.stl" class="f" axis="0.6 -0.05 0" />
+              </body>
+            </body>
+          </body>
+
+          <!-- Right Pinky  -->
+          <body name="Right_hand_palm_4" pos="0.00405 -0.01527 -0.002279">
+            <body name="Right_Pinky_1.stl" pos="-0.03393 -0.01875 -0.003631">
+              <geom name="Right_Pinky_1.stl" class="bone" group="1" pos="0.02988 0.03401 0.00591"
+                mesh="Right_Pinky_1.stl"
+                contype="0" conaffinity="0" rgba="1 0.5 0.5 0" />
+              <body name="Right_Pinky_J1.stl" pos="-0.002258 -0.01357 -0.002914">
+                <geom name="Right_Pinky_J1.stl" class="bone" group="1"
+                  pos="0.03214 0.04758 0.008824" mesh="Right_Pinky_J1.stl" />
+                <body name="Right_Pinky_2.stl" pos="-0.001899 -0.009547 -0.00224">
+                  <geom name="Right_Pinky_2.stl" class="bone" group="1"
+                    pos="0.03404 0.05713 0.01106" mesh="Right_Pinky_2.stl" />
+                  <geom name="Right_Pinky_2.stl_collision" class="collision_primitive"
+                    size="0.004725 0.006113" euler="-1.4 0.12 1.6" />
+                  <body name="Right_Pinky_J2.stl" pos="-0.001679 -0.00984 -0.001743">
+                    <geom name="Right_Pinky_J2.stl" class="bone" group="1"
+                      pos="0.03572 0.06696 0.01281" mesh="Right_Pinky_J2.stl" />
+                    <body name="Right_Pinky_3.stl" pos="-0.001162 -0.006438 -0.001314">
+                      <geom name="Right_Pinky_3.stl" class="bone" group="1"
+                        pos="0.03688 0.0734 0.01412" mesh="Right_Pinky_3.stl" />
+                      <geom name="Right_Pinky_3.stl_collision" class="collision_primitive"
+                        size="0.004 0.004" euler="-1.4 0.12 1.6" />
+                      <body name="Right_Pinky_J3.stl" pos="-0.001148 -0.007088 -0.001148">
+                        <geom name="Right_Pinky_J3.stl" class="bone" group="1"
+                          pos="0.03803 0.08049 0.01527" mesh="Right_Pinky_J3.stl" />
+                        <body name="Right_Pinky_4.stl" pos="-0.0006077 -0.002748 -0.0006104">
+                          <site name="Right_forSensorPinky_4.stl" type="sphere" group="3"
+                            size="0.005 0.005" pos="-0.0006077 -0.002748 -0.0006104" />
+                          <geom name="Right_Pinky_4.stl" class="bone" group="1"
+                            pos="0.03864 0.08324 0.01588" mesh="Right_Pinky_4.stl" />
+                          <geom name="Right_Pinky_4.stl_collision" class="collision_primitive"
+                            size="0.0035 0.002884" euler="-1.4 0.12 1.6" />
+                        </body>
+                        <joint name="Right_Pinky_J3.stl" class="f" axis="0.6 -0.1 0" />
+                      </body>
+                    </body>
+                    <joint name="Right_Pinky_J2.stl" class="f" axis="0.6 -0.1 0" />
+                  </body>
+                </body>
+                <joint name="Right_Pinky_J1.stl" class="f" axis="0.6 -0.1 0" />
+              </body>
+            </body>
+          </body>
+
+          <!-- Right Thumb  -->
+          <body name="Right_hand_palm_5" pos="0.00405 -0.01527 -0.002279" euler="1 0 0">
+            <body name="Right_Thumb_J1.stl" pos="0.0338 0.006272 -0.01066">
+              <geom name="Right_Thumb_J1.stl" class="bone" group="1"
+                pos="-0.03785 0.008994 0.01294" mesh="Right_Thumb_J1.stl" />
+              <body name="Right_Thumb_1.stl" pos="0.003528 -0.01408 -0.006184">
+                <geom name="Right_Thumb_1.stl" class="bone" group="1"
+                  pos="-0.04137 0.02307 0.01912" mesh="Right_Thumb_1.stl" />
+                <geom name="Right_Thumb_1.stl_collision" class="collision_primitive"
+                  size="0.007 0.01" euler="-1.2 -0.3 1" />
+                <body name="Right_Thumb_J2.stl" pos="0.005477 -0.01582 -0.006928">
+                  <geom name="Right_Thumb_J2.stl" class="bone" group="1"
+                    pos="-0.04685 0.03889 0.02605" mesh="Right_Thumb_J2.stl" />
+                  <body name="Right_Thumb_2.stl" pos="0.00245 -0.009581 -0.00418">
+                    <geom name="Right_Thumb_2.stl" class="bone" group="1"
+                      pos="-0.0493 0.04848 0.03023" mesh="Right_Thumb_2.stl" />
+                    <geom name="Right_Thumb_2.stl_collision" class="collision_primitive"
+                      size="0.006 0.01" euler="-1.2 -0.3 1" />
+                    <body name="Right_Thumb_J3.stl" pos="0.003281 -0.01149 -0.004987">
+                      <geom name="Right_Thumb_J3.stl" class="bone" group="1"
+                        pos="-0.05258 0.05996 0.03522" mesh="Right_Thumb_J3.stl" />
+                      <body name="Right_Thumb_3.stl" pos="0.001609 -0.003852 -0.001609">
+                        <site name="Right_forSensorThumb_3.stl" type="sphere" group="3"
+                          size="0.005 0.005" pos="0.001609 -0.003852 -0.001609" />
+                        <geom name="Right_Thumb_3.stl" class="bone" group="1"
+                          pos="-0.05419 0.06381 0.03682" mesh="Right_Thumb_3.stl" />
+                        <geom name="Right_Thumb_3.stl_collision" class="collision_primitive"
+                          size="0.005 0.0045" euler="-1.2 -0.3 1" />
+                      </body>
+                      <joint name="Right_Thumb_J3.stl" class="f" axis="-0.4 0.4 -1" range="0 0.5" />
+                    </body>
+                  </body>
+                  <joint name="Right_Thumb_J2.stl" class="f" axis="-0.4 0.4 -1" />
+                </body>
+              </body>
+              <joint name="Right_Thumb_J1.stl" class="f" axis="-0.4 0.4 -1" />
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+
+
+    <!-- _______________________________ Left Hand ________________________________________________ -->
+
+    <!-- Left Palm and Mocap  -->
+    <body name="left_hand_mocap" mocap="true" pos="0 0 1"></body>
+    <body name="Left_Free" pos="10 0 10" euler="0 1.57 1.57">
+      <freejoint name="Left_Freejoint" group="1"/>
+      <geom type="sphere" size=".001" contype="0" conaffinity="0" rgba="1 0.5 0.5 0" />
+      <body name="Left_Palm">
+        <body name="Left_Palm_Left" euler="0 0 0">
+          <geom name="Left_Palm2" type="mesh" contype="0" conaffinity="0" 
+            mesh="Left_Palm.stl" material="skin"/>
+          <geom name="Left_Palm_collision" class="collision_primitive" type="box" rgba="0.0352941176471 0.364705882353 0.494117647059 0"
+            size="0.026 0.026 0.0078" pos="0 -0.03053 -0.004559" group="5"/>
+
+          <!-- Left Index  -->
+          <body name="Left_hand_palm" pos="-0.00405 -0.01527 -0.002279">
+            <body name="Left_Index_1.stl" pos="-0.01821 -0.02181 -0.001155">
+              <geom name="Left_Index_1.stl" class="bone" group="1" pos="0.02226 0.03708 0.003434"
+                mesh="Left_Index_1.stl" contype="0" conaffinity="0" rgba="1 0.5 0.5 0" />
+              <body name="Left_Index_J1.stl" pos="-0.00227 -0.01826 -0.003126">
+                <geom name="Left_Index_J1.stl" class="bone" group="1" pos="0.02453 0.05534 0.00656"
+                  mesh="Left_Index_J1.stl" />
+                <body name="Left_Index_2.stl" pos="-0.001246 -0.01296 -0.002512">
+                  <geom name="Left_Index_2.stl" class="bone" group="1"
+                    pos="0.02578 0.06829 0.009072"
+                    mesh="Left_Index_2.stl" />
+                  <geom name="Left_Index_2.stl_collision" class="collision_primitive"
+                    size="0.005752 0.008655" euler="-1.4 0.12 1.6" />
+                  <body name="Left_Index_J2.stl" pos="-0.001513 -0.01324 -0.001791">
+                    <geom name="Left_Index_J2.stl" class="bone" group="1"
+                      pos="0.02729 0.08154 0.01086" mesh="Left_Index_J2.stl" />
+                    <body name="Left_Index_3.stl" pos="-0.0009469 -0.008692 -0.001412">
+                      <geom name="Left_Index_3.stl" class="bone" group="1"
+                        pos="0.02824 0.09023 0.01228"
+                        mesh="Left_Index_3.stl" />
+                      <geom name="Left_Index_3.stl_collision" class="collision_primitive"
+                        size="0.005 0.006655" euler="-1.4 0.12 1.6" />
+                      <body name="Left_Index_J3.stl" pos="-0.001143 -0.009517 -0.001137">
+                        <geom name="Left_Index_J3.stl" class="bone" group="1"
+                          pos="0.02938 0.09975 0.01341" mesh="Left_Index_J3.stl" />
+                        <body name="Left_Index_4.stl" pos="-0.0002737 -0.003749 -0.0006906">
+                          <site name="Left_forSensor" type="sphere" group="3" size="0.005 0.005"
+                            pos="-0.0002737 -0.003749 -0.0006906" />
+                          <geom name="Left_Index_4.stl" class="bone" group="1"
+                            pos="0.02966 0.1035 0.0141"
+                            mesh="Left_Index_4.stl" />
+                          <geom name="Left_Index_4.stl_collision" class="collision_primitive"
+                            size="0.004 0.004014" euler="-1.4 0.12 1.6" />
+                        </body>
+                        <joint name="Left_Index_J3.stl" class="f" axis="0.8 -0.1 0" />
+                      </body>
+                    </body>
+                    <joint name="Left_Index_J2.stl" class="f" axis="0.8 -0.1 0" />
+                  </body>
+                </body>
+                <joint name="Left_Index_J1.stl" class="f" axis="0.8 -0.1 0" />
+              </body>
+            </body>
+          </body>
+
+          <!-- Left Middle  -->
+          <body name="Left_hand_palm_2" pos="-0.00405 -0.01527 -0.002279">
+            <body name="Left_Middle_1.stl" pos="-0.0008401 -0.02757 -0.00339">
+              <geom name="Left_Middle_1.stl" class="bone" group="1" pos="0.00489 0.04284 0.00567"
+                mesh="Left_Middle_1.stl"
+                contype="0" conaffinity="0" rgba="1 0.5 0.5 0" />
+              <body name="Left_Middle_J1.stl" pos="0.001068 -0.02192 -0.003756">
+                <geom name="Left_Middle_J1.stl" class="bone" group="1"
+                  pos="0.003822 0.06475 0.009426"
+                  mesh="Left_Middle_J1.stl" />
+                <body name="Left_Middle_2.stl" pos="-0.000714 -0.01548 -0.002969">
+                  <geom name="Left_Middle_2.stl" class="bone" group="1"
+                    pos="0.004536 0.08024 0.01239"
+                    mesh="Left_Middle_2.stl" />
+                  <geom name="Left_Middle_2.stl_collision" class="collision_primitive"
+                    size="0.006232 0.01032" euler="-1.4 0 1.6" />
+                  <body name="Left_Middle_J2.stl" pos="7.813e-05 -0.01587 -0.002141">
+                    <geom name="Left_Middle_J2.stl" class="bone" group="1"
+                      pos="0.004457 0.09611 0.01454"
+                      mesh="Left_Middle_J2.stl" />
+                    <body name="Left_Middle_3.stl" pos="0.0001241 -0.01041 -0.001683">
+                      <geom name="Left_Middle_3.stl" class="bone" group="1"
+                        pos="0.004333 0.1065 0.01622"
+                        mesh="Left_Middle_3.stl" />
+                      <geom name="Left_Middle_3.stl_collision" class="collision_primitive"
+                        size="0.0055 0.00792" euler="-1.4 0 1.6" />
+                      <body name="Left_Middle_J3.stl" pos="-2.234e-05 -0.01141 -0.001365">
+                        <geom name="Left_Middle_J3.stl" class="bone" group="1"
+                          pos="0.004356 0.1179 0.01758" mesh="Left_Middle_J3.stl" />
+                        <body name="Left_Middle_4.stl" pos="0.000219 -0.004472 -0.0008121">
+                          <site name="Left_forSensorMiddle_4.stl" type="sphere" group="3"
+                            size="0.005 0.005"
+                            pos="0.000219 -0.004472 -0.0008121" />
+                          <geom name="Left_Middle_4.stl" class="bone" group="1"
+                            pos="0.004137 0.1224 0.0184" mesh="Left_Middle_4.stl" />
+                          <geom name="Left_Middle_4.stl_collision" class="collision_primitive"
+                            size="0.0045 0.004789" euler="-1.4 0 1.6" />
+                        </body>
+                        <joint name="Left_Middle_J3.stl" class="f" axis="1 0 0" />
+                      </body>
+                    </body>
+                    <joint name="Left_Middle_J2.stl" class="f" axis="1 0 0" />
+                  </body>
+                </body>
+                <joint name="Left_Middle_J1.stl" class="f" axis="1 0 0" />
+              </body>
+            </body>
+          </body>
+
+          <!-- Left Annular  -->
+          <body name="Left_hand_palm_3" pos="-0.00405 -0.01527 -0.002279">
+            <body name="Left_Annular_1.stl" pos="0.01838 -0.02648 -0.002412">
+              <geom name="Left_Annular_1.stl" class="bone" group="1" pos="-0.01433 0.04174 0.004692"
+                mesh="Left_Annular_1.stl"
+                contype="0" conaffinity="0" rgba="1 0.5 0.5 0" />
+              <body name="Left_Annular_J1.stl" pos="0.001102 -0.02004 -0.00288">
+                <geom name="Left_Annular_J1.stl" class="bone" group="1"
+                  pos="-0.01544 0.06178 0.007571"
+                  mesh="Left_Annular_J1.stl" />
+                <body name="Left_Annular_2.stl" pos="0.001203 -0.01417 -0.002324">
+                  <geom name="Left_Annular_2.stl" class="bone" group="1"
+                    pos="-0.01664 0.07595 0.009895"
+                    mesh="Left_Annular_2.stl" />
+                  <geom name="Left_Annular_2.stl_collision" class="collision_primitive"
+                    size="0.005781 0.009836" euler="-1.4 -0.05 1.6" />
+                  <body name="Left_Annular_J2.stl" pos="0.00107 -0.01493 -0.001752">
+                    <geom name="Left_Annular_J2.stl" class="bone" group="1"
+                      pos="-0.01771 0.09088 0.01165"
+                      mesh="Left_Annular_J2.stl" />
+                    <body name="Left_Annular_3.stl" pos="0.000481 -0.009086 -0.001084">
+                      <geom name="Left_Annular_3.stl" class="bone" group="1"
+                        pos="-0.01819 0.09997 0.01273" mesh="Left_Annular_3.stl" />
+                      <geom name="Left_Annular_3.stl_collision" class="collision_primitive"
+                        size="0.005 0.007487" euler="-1.4 -0.05 1.6" />
+                      <body name="Left_Annular_J3.stl" pos="0.0005647 -0.01043 -0.000965">
+                        <geom name="Left_Annular_J3.stl" class="bone" group="1"
+                          pos="-0.01875 0.1104 0.0137" mesh="Left_Annular_J3.stl" />
+                        <body name="Left_Annular_4.stl" pos="0.0004367 -0.004082 -0.0006246">
+                          <site name="Left_forSensorAnnular_4.stl" type="sphere" group="3"
+                            size="0.005 0.005" pos="0.0004367 -0.004082 -0.0006246" />
+                          <geom name="Left_Annular_4.stl" class="bone" group="1"
+                            pos="-0.01919 0.1145 0.01432" mesh="Left_Annular_4.stl" />
+                          <geom name="Left_Annular_4.stl_collision" class="collision_primitive"
+                            size="0.004 0.004495" euler="-1.4 -0.05 1.6" />
+                        </body>
+                        <joint name="Left_Annular_J3.stl" class="f" axis="0.6 0.05 0" />
+                      </body>
+                    </body>
+                    <joint name="Left_Annular_J2.stl" class="f" axis="0.6 0.05 0" />
+                  </body>
+                </body>
+                <joint name="Left_Annular_J1.stl" class="f" axis="0.6 0.05 0" />
+              </body>
+            </body>
+          </body>
+
+          <!-- Left Pinky  -->
+          <body name="Left_hand_palm_4" pos="-0.00405 -0.01527 -0.002279">
+            <body name="Left_Pinky_1.stl" pos="0.03393 -0.01875 -0.003631">
+              <geom name="Left_Pinky_1.stl" class="bone" group="1" pos="-0.02988 0.03401 0.00591"
+                mesh="Left_Pinky_1.stl"
+                contype="0" conaffinity="0" rgba="1 0.5 0.5 0" />
+              <body name="Left_Pinky_J1.stl" pos="0.002258 -0.01357 -0.002914">
+                <geom name="Left_Pinky_J1.stl" class="bone" group="1"
+                  pos="-0.03214 0.04758 0.008824"
+                  mesh="Left_Pinky_J1.stl" />
+                <body name="Left_Pinky_2.stl" pos="0.001899 -0.009547 -0.00224">
+                  <geom name="Left_Pinky_2.stl" class="bone" group="1"
+                    pos="-0.03404 0.05713 0.01106"
+                    mesh="Left_Pinky_2.stl" />
+                  <geom name="Left_Pinky_2.stl_collision" class="collision_primitive"
+                    size="0.004725 0.006113" euler="-1.4 -0.12 1.6" />
+                  <body name="Left_Pinky_J2.stl" pos="0.001679 -0.00984 -0.001743">
+                    <geom name="Left_Pinky_J2.stl" class="bone" group="1"
+                      pos="-0.03572 0.06696 0.01281"
+                      mesh="Left_Pinky_J2.stl" />
+                    <body name="Left_Pinky_3.stl" pos="0.001162 -0.006438 -0.001314">
+                      <geom name="Left_Pinky_3.stl" class="bone" group="1"
+                        pos="-0.03688 0.0734 0.01412"
+                        mesh="Left_Pinky_3.stl" />
+                      <geom name="Left_Pinky_3.stl_collision" class="collision_primitive"
+                        size="0.004 0.004" euler="-1.4 -0.12 1.6" />
+                      <body name="Left_Pinky_J3.stl" pos="0.001148 -0.007088 -0.001148">
+                        <geom name="Left_Pinky_J3.stl" class="bone" group="1"
+                          pos="-0.03803 0.08049 0.01527" mesh="Left_Pinky_J3.stl" />
+                        <body name="Left_Pinky_4.stl" pos="0.0006077 -0.002748 -0.0006104">
+                          <site name="Left_forSensorPinky_4.stl" type="sphere" group="3"
+                            size="0.005 0.005"
+                            pos="0.0006077 -0.002748 -0.0006104" />
+                          <geom name="Left_Pinky_4.stl" class="bone" group="1"
+                            pos="-0.03864 0.08324 0.01588" mesh="Left_Pinky_4.stl" />
+                          <geom name="Left_Pinky_4.stl_collision" class="collision_primitive"
+                            size="0.0035 0.002884" euler="-1.4 -0.12 1.6" />
+                        </body>
+                        <joint name="Left_Pinky_J3.stl" class="f" axis="0.6 0.1 0" />
+                      </body>
+                    </body>
+                    <joint name="Left_Pinky_J2.stl" class="f" axis="0.6 0.1 0" />
+                  </body>
+                </body>
+                <joint name="Left_Pinky_J1.stl" class="f" axis="0.6 0.1 0" />
+              </body>
+            </body>
+          </body>
+
+          <!-- Left Thumb  -->
+          <body name="Left_hand_palm_5" pos="-0.00405 -0.01527 -0.002279" euler="1 0 0">
+            <body name="Left_Thumb_J1.stl" pos="-0.0338 0.006272 -0.01066">
+              <geom name="Left_Thumb_J1.stl" class="bone" group="1" pos="0.03785 0.008994 0.01294"
+                mesh="Left_Thumb_J1.stl" />
+              <body name="Left_Thumb_1.stl" pos="-0.003528 -0.01408 -0.006184">
+                <geom name="Left_Thumb_1.stl" class="bone" group="1" pos="0.04137 0.02307 0.01912"
+                  mesh="Left_Thumb_1.stl" />
+                <geom name="Left_Thumb_1.stl_collision" class="collision_primitive"
+                  size="0.007 0.01" euler="-1.2 0.3 1" />
+                <body name="Left_Thumb_J2.stl" pos="-0.005477 -0.01582 -0.006928">
+                  <geom name="Left_Thumb_J2.stl" class="bone" group="1"
+                    pos="0.04685 0.03889 0.02605"
+                    mesh="Left_Thumb_J2.stl" />
+                  <body name="Left_Thumb_2.stl" pos="-0.00245 -0.009581 -0.00418">
+                    <geom name="Left_Thumb_2.stl" class="bone" group="1"
+                      pos="0.0493 0.04848 0.03023"
+                      mesh="Left_Thumb_2.stl" />
+                    <geom name="Left_Thumb_2.stl_collision" class="collision_primitive"
+                      size="0.006 0.01" euler="-1.2 0.3 1" />
+                    <body name="Left_Thumb_J3.stl" pos="-0.003281 -0.01149 -0.004987">
+                      <geom name="Left_Thumb_J3.stl" class="bone" group="1"
+                        pos="0.05258 0.05996 0.03522" mesh="Left_Thumb_J3.stl" />
+                      <body name="Left_Thumb_3.stl" pos="-0.001609 -0.003852 -0.001609">
+                        <site name="Left_forSensorThumb_3.stl" type="sphere" group="3"
+                          size="0.005 0.005"
+                          pos="-0.001609 -0.003852 -0.001609" />
+                        <geom name="Left_Thumb_3.stl" class="bone" group="1"
+                          pos="0.05419 0.06381 0.03682" mesh="Left_Thumb_3.stl" />
+                        <geom name="Left_Thumb_3.stl_collision" class="collision_primitive"
+                          size="0.004 0.004" euler="-1.2 0.3 1" />
+                      </body>
+                      <joint name="Left_Thumb_J3.stl" class="f" axis="-0.4 -0.4 1" range="0 0.5" />
+                    </body>
+                  </body>
+                  <joint name="Left_Thumb_J2.stl" class="f" axis="-0.4 -0.4 1" />
+                </body>
+              </body>
+              <joint name="Left_Thumb_J1.stl" class="f" axis="-0.4 -0.4 1" />
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+
+    
+    <frame pos="-.1 -1.2 0.5" euler="0 0 3.14">
+      <body name="Right_abdomen phantom" childclass="phantom">
+          <geom mesh="right_kidney" material="right_kidney" class="visual" />
+          <geom mesh="ribs" material="ribs" class="visual" />
+          <geom mesh="portal_vein" material="portal_vein" class="visual" />
+          <geom mesh="outer_spine" material="outer_spine" class="visual" />
+          <geom mesh="muscle" material="muscle" class="visual" />
+          <geom mesh="liver" material="liver" class="visual" />
+          <geom mesh="inner_spine" material="inner_spine" class="visual" />
+          <geom mesh="fat" material="fat" class="visual" />
+          <geom mesh="cava" material="cava" class="visual" />
+          <geom mesh="aorta" material="aorta" class="visual" />
+      </body>
+
+      <flexcomp name="left kidney" type="gmsh" dim="3" pos="-.1 -1.29 0.65" euler="0 0 3.14"
+          file="phantom-assets/left kidney_converted_vol.msh" scale="3 3 3" material="right_kidney" user="0.7 14">
+          <edge equality="true" />
+          <pin id="47 38 58" />
+          <contact internal="false" condim="3" solref="0.005 1" solimp=".95 .99 .0001"
+              selfcollide="none" />
+          <plugin plugin="mujoco.elasticity.solid">
+              <config key="poisson" value="0.1" />
+              <config key="young" value="5e4" />
+              <config key="damping" value="0.005" />
+          </plugin>
+      </flexcomp>
+  </frame> 
+
+    <body name="cube_silver" pos="0 0 0">
+      <freejoint group="2"/>
+      <geom name="cube_silver" type="box" size=".02 .02 .02" density="4000" material="silver" rgba="0.8313 0.6863 0.2157 1"/>
+      <geom name="cube_silver_coll" class="collision_primitive" type="box" size=".02 .02 .02" density="4000" rgba="0.8313 0.6863 0.2157 1" material="silver" pos="0 0 0" euler="0 0 0" />
+    </body>
+
+    <body name="cylinder_plastic" pos="0 0.2 0.04">
+      <freejoint group="3"/>
+      <geom name="cylinder_plastic_coll" class="collision_circles" type="cylinder" size=".02 .07" density="2000" rgba="1 0.01 0 1"/>
+    </body>
+
+    <body name="cube_rock" pos="0 0.4 0">
+      <freejoint group="4"/>
+      <geom name="cube_rock" type="box" size=".02 .02 .02" density="3750" rgba="0.7176 0.7255 0.71 1" material="rock"/>
+      <geom name="cube_rock_coll" class="collision_primitive" type="box" size=".02 .02 .02" density="3750" rgba="0.7176 0.7255 0.71 1" material="rock"/>
+    </body>
+
+    <body name="sphere" pos=" 0 -0.2 0.03">
+      <freejoint group="5"/>
+      <geom name="sphere_plastic_coll" type="sphere" class="collision_circles" size=".025" density="4000" rgba="1 0.4 0 1"/>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <!-- Right Hand Actuators -->
+    <intvelocity name="Right_Index_J1.stl" class="f" joint="Right_Index_J1.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Right_Index_J2.stl" class="f" joint="Right_Index_J2.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Right_Index_J3.stl" class="f" joint="Right_Index_J3.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Right_Middle_J1.stl" class="f" joint="Right_Middle_J1.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Right_Middle_J2.stl" class="f" joint="Right_Middle_J2.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Right_Middle_J3.stl" class="f" joint="Right_Middle_J3.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Right_Annular_J1.stl" class="f" joint="Right_Annular_J1.stl" kp="10000"
+      kv="10" actrange="0 1.7" />
+    <intvelocity name="Right_Annular_J2.stl" class="f" joint="Right_Annular_J2.stl" kp="10000"
+      kv="10" actrange="0 1.7" />
+    <intvelocity name="Right_Annular_J3.stl" class="f" joint="Right_Annular_J3.stl" kp="10000"
+      kv="10" actrange="0 1.7" />
+    <intvelocity name="Right_Pinky_J1.stl" class="f" joint="Right_Pinky_J1.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Right_Pinky_J2.stl" class="f" joint="Right_Pinky_J2.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Right_Pinky_J3.stl" class="f" joint="Right_Pinky_J3.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Right_Thumb_J1.stl" class="f" joint="Right_Thumb_J1.stl" kp="10000" kv="10"
+      actrange="0 0.5" />
+    <intvelocity name="Right_Thumb_J2.stl" class="f" joint="Right_Thumb_J2.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Right_Thumb_J3.stl" class="f" joint="Right_Thumb_J3.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+
+    <!-- Left Hand Actuators -->
+    <intvelocity name="Left_Index_J1.stl" class="f" joint="Left_Index_J1.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Index_J2.stl" class="f" joint="Left_Index_J2.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Index_J3.stl" class="f" joint="Left_Index_J3.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Middle_J1.stl" class="f" joint="Left_Middle_J1.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Middle_J2.stl" class="f" joint="Left_Middle_J2.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Middle_J3.stl" class="f" joint="Left_Middle_J3.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Annular_J1.stl" class="f" joint="Left_Annular_J1.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Annular_J2.stl" class="f" joint="Left_Annular_J2.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Annular_J3.stl" class="f" joint="Left_Annular_J3.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Pinky_J1.stl" class="f" joint="Left_Pinky_J1.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Pinky_J2.stl" class="f" joint="Left_Pinky_J2.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Pinky_J3.stl" class="f" joint="Left_Pinky_J3.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Thumb_J1.stl" class="f" joint="Left_Thumb_J1.stl" kp="10000" kv="10"
+      actrange="0 0.5" />
+    <intvelocity name="Left_Thumb_J2.stl" class="f" joint="Left_Thumb_J2.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+    <intvelocity name="Left_Thumb_J3.stl" class="f" joint="Left_Thumb_J3.stl" kp="10000" kv="10"
+      actrange="0 1.7" />
+  </actuator>
+
+  <sensor>
+    <!-- Right Hand Force Sensors -->
+    <touch name="Right_fingertip_sensor_index" site="Right_forSensor" />
+    <touch name="Right_fingertip_sensor_middle" site="Right_forSensorMiddle_4.stl" />
+    <touch name="Right_fingertip_sensor_annular" site="Right_forSensorAnnular_4.stl" />
+    <touch name="Right_fingertip_sensor_pinky" site="Right_forSensorPinky_4.stl" />
+    <touch name="Right_fingertip_sensor_thumb" site="Right_forSensorThumb_3.stl" />
+
+    <!-- Left Hand Force Sensors -->
+    <touch name="Left_fingertip_sensor_index" site="Left_forSensor" />
+    <touch name="Left_fingertip_sensor_middle" site="Left_forSensorMiddle_4.stl" />
+    <touch name="Left_fingertip_sensor_annular" site="Left_forSensorAnnular_4.stl" />
+    <touch name="Left_fingertip_sensor_pinky" site="Left_forSensorPinky_4.stl" />
+    <touch name="Left_fingertip_sensor_thumb" site="Left_forSensorThumb_3.stl" />
+  </sensor>
+
+</mujoco>
